@@ -2,7 +2,6 @@
 
 namespace App\Entity\Answers;
 
-use App\Entity\Answers\Visitor\Visitor;
 use App\Entity\Question;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -114,11 +113,5 @@ abstract class Answer
 
         return $this;
     }
-
-    /**
-     * @param Visitor $visitor
-     * @return float
-     */
-    abstract public function scoreAccept(Visitor $visitor): float;
 
 }

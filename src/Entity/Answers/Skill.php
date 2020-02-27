@@ -2,7 +2,6 @@
 
 namespace App\Entity\Answers;
 
-use App\Entity\Answers\Visitor\Visitor;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,15 +36,6 @@ class Skill extends Answer
         $this->punctuate = $punctuate;
 
         return $this;
-    }
-
-    /**
-     * @param Visitor $visitor
-     * @return float
-     */
-    public function ScoreAccept(Visitor $visitor): float
-    {
-        return $visitor->visitScoreSkill($this);
     }
 
 }

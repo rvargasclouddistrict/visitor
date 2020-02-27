@@ -2,7 +2,6 @@
 
 namespace App\Entity\Answers;
 
-use App\Entity\Answers\Visitor\Visitor;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -23,15 +22,6 @@ class Profile extends Answer
      * )
      */
     private $weight;
-
-    /**
-     * @param Visitor $visitor
-     * @return float
-     */
-    public function ScoreAccept(Visitor $visitor): float
-    {
-        return $visitor->visitScoreProfile($this);
-    }
 
     /**
      * @return int
