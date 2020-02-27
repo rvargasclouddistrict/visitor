@@ -2,8 +2,7 @@
 
 namespace App\Command;
 
-use App\Entity\Answers\Profile;
-use App\Entity\Answers\Skill;
+use App\Entity\Answer;
 use App\Entity\Question;
 use App\Service\ScoringService;
 use Symfony\Component\Console\Command\Command;
@@ -37,24 +36,27 @@ class VisitorCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $question = new Question();
-        $question->setName('Visitor question');
+        $question->setName('question');
 
-        $answerProfile = new Profile();
+        $answerProfile = new Answer();
         $answerProfile
             ->setWeight(50)
             ->setName('answer type profile')
-            ->setValue(100);
+            ->setValue(100)
+            ->setType(Answer::TYPE_PROFILE);
 
-        $answerSkill = new Skill();
+        $answerSkill = new Answer();
         $answerSkill
             ->setPunctuate(true)
             ->setName('answer type skill punctuate')
-            ->setValue(200);
+            ->setValue(200)
+            ->setType(Answer::TYPE_SKILL);
 
-        $answerSkill2 = new Skill();
+        $answerSkill2 = new Answer();
         $answerSkill2
             ->setName('answer type skill not punctuate')
-            ->setValue(500);
+            ->setValue(500)
+            ->setType(Answer::TYPE_SKILL);
 
         $question
             ->addAnswer($answerProfile)

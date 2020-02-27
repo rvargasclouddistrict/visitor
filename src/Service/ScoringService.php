@@ -2,9 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Answers\Answer;
-use App\Entity\Answers\Profile;
-use App\Entity\Answers\Skill;
+use App\Entity\Answer;
 use App\Entity\Question;
 
 class ScoringService
@@ -13,6 +11,7 @@ class ScoringService
     /**
      * @param Question $question
      * @return float
+     * @throws \Exception
      */
     public function calculate(Question $question): float
     {
@@ -20,13 +19,19 @@ class ScoringService
 
         /** @var Answer $answer */
         foreach ($question->getAnswers() as $answer) {
-            if ($answer instanceof Profile) {
-                $score += $answer->getValue() * $answer->getWeight() / 100;
+            switch ($answer->getType()) {
+                case Answer::TYPE_SKILL:
+                    if ($answer->isPunctuate()) {
+                        $score += $answer->getValue();
+                    }
+                    break;
 
-            } elseif ($answer instanceof Skill) {
-                if ($answer->isPunctuate()) {
-                    $score += $answer->getValue();
-                }
+                case Answer::TYPE_PROFILE:
+                    $score += $answer->getValue() * $answer->getWeight() / 100;
+                    break;
+
+                default:
+                    throw new \Exception('Unsupported type');
             }
         }
 

@@ -1,22 +1,18 @@
 <?php
 
-namespace App\Entity\Answers;
+namespace App\Entity;
 
-use App\Entity\Question;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="type", type="integer")
- * @ORM\DiscriminatorMap({
- *     "1" = "Skill",
- *     "2" = "Profile"
- * })
  */
-abstract class Answer
+class Answer
 {
+    const TYPE_PROFILE = 1;
+    const TYPE_SKILL = 2;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -46,6 +42,29 @@ abstract class Answer
      * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="answers")
      */
     private $question;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @Assert\Type(
+     *     type="integer",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
+     */
+    private $weight;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $punctuate;
+
+    /**
+     * @var int|null
+     */
+    private $type;
 
     /**
      * @return int|null
@@ -110,6 +129,63 @@ abstract class Answer
     public function setQuestion(?Question $question): self
     {
         $this->question = $question;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWeight(): int
+    {
+        return $this->weight;
+    }
+
+    /**
+     * @param mixed $weight
+     * @return Answer
+     */
+    public function setWeight(int $weight): self
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPunctuate(): ?bool
+    {
+        return $this->punctuate;
+    }
+
+    /**
+     * @param bool $punctuate
+     * @return Answer
+     */
+    public function setPunctuate(bool $punctuate): self
+    {
+        $this->punctuate = $punctuate;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getType(): ?int
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param int|null $type
+     * @return Answer
+     */
+    public function setType($type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
